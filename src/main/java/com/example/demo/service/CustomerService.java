@@ -20,6 +20,9 @@ public class CustomerService implements ICustomer{
 
     @Override
     public Customer save(CustomerDto customerDto) {
+        if (repositoryCustomer.existsByEmail(customerDto.getEmail())){
+            throw new RuntimeException("Email Already Exists");
+        }
         Customer customer = new Customer();
         customer.setName(customerDto.getName());
         customer.setEmail(customerDto.getEmail());

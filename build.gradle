@@ -31,6 +31,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
 //    implementation group: 'org.mindrot.bcrypt', name: 'bcrypt', version: '0.3'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.3.0'
 }
 
 

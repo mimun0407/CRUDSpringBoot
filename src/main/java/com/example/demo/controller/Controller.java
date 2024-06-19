@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.Dto.CustomerDto;
+import com.example.demo.Dto.CustomerCreateDto;
+import com.example.demo.Dto.CustomerUpdateDTO;
 import com.example.demo.Model.Customer;
 import com.example.demo.service.ICustomer;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class Controller {
     }
 
     @PostMapping()
-    public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDto customer) {
+    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CustomerCreateDto customer) {
         Customer customer1 = customerService.save(customer);
         return new ResponseEntity<>(customer1, HttpStatus.CREATED);
     }
@@ -43,7 +45,7 @@ public class Controller {
     }
 
     @PutMapping("/Update/{id}")
-    public ResponseEntity<Customer> UpdateCustomer(@PathVariable String id, @RequestBody CustomerDto customer) {
+    public ResponseEntity<Customer> UpdateCustomer(@PathVariable String id, @RequestBody CustomerUpdateDTO customer) {
         Customer customer1 = customerService.updateCustomer(id, customer);
         return new ResponseEntity<>(customer1, HttpStatus.CREATED);
     }

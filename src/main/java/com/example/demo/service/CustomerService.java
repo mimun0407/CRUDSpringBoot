@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.Dto.CustomerUpdateDTO;
 import com.example.demo.Model.Customer;
-import com.example.demo.Dto.CustomerDto;
+import com.example.demo.Dto.CustomerCreateDto;
 import com.example.demo.repository.RepositoryCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class CustomerService implements ICustomer{
     }
 
     @Override
-    public Customer save(CustomerDto customerDto) {
+    public Customer save(CustomerCreateDto customerDto) {
         if (repositoryCustomer.existsByEmail(customerDto.getEmail())){
             throw new RuntimeException("Email Already Exists");
         }
@@ -43,7 +44,7 @@ public class CustomerService implements ICustomer{
     }
 
     @Override
-    public Customer updateCustomer(String id, CustomerDto customerDto) {
+    public Customer updateCustomer(String id, CustomerUpdateDTO customerDto) {
         Customer customer = new Customer();
         customer.setId(id);
         customer.setName(customerDto.getName());

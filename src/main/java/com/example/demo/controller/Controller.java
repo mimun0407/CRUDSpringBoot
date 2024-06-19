@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/Customer")
+@RestController
+@RequestMapping("/Customer")
 public class Controller {
     private final ICustomer customerService;
 
@@ -17,7 +18,7 @@ public class Controller {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customerId/{id}")
+    @GetMapping("/customerProfile/{id}")
     public ResponseEntity<Customer> getCustomerList(@PathVariable("id") String id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {

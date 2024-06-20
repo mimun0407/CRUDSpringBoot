@@ -5,6 +5,8 @@ import com.example.demo.Model.Customer;
 import com.example.demo.Dto.CustomerCreateDto;
 import com.example.demo.repository.RepositoryCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +30,8 @@ public class CustomerService implements ICustomer{
         customer.setName(customerDto.getName());
         customer.setEmail(customerDto.getEmail());
         customer.setPhoneNumber(customerDto.getPhoneNumber());
-        customer.setPassword(customerDto.getPassword());
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        customer.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         repositoryCustomer.save(customer);
         return customer;
     }

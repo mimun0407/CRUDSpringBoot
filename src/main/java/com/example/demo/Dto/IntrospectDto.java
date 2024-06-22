@@ -1,4 +1,4 @@
-package com.example.demo.Response;
+package com.example.demo.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private boolean authenticated;
-    private String token;
-
+public class IntrospectDto {
+   private String token;
 }

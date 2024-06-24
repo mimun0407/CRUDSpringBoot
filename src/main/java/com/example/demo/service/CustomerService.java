@@ -3,12 +3,17 @@ package com.example.demo.service;
 import com.example.demo.Dto.CustomerUpdateDTO;
 import com.example.demo.Model.Customer;
 import com.example.demo.Dto.CustomerCreateDto;
+import com.example.demo.Response.CustomerResponse;
+import com.example.demo.enums.Role;
 import com.example.demo.repository.RepositoryCustomer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 @Service
 public class CustomerService implements ICustomer{
     private final RepositoryCustomer repositoryCustomer;
@@ -32,7 +37,11 @@ public class CustomerService implements ICustomer{
         customer.setPhoneNumber(customerDto.getPhoneNumber());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         customer.setPassword(passwordEncoder.encode(customerDto.getPassword()));
+        HashSet<String> roles=new HashSet<>();
+        roles.add(Role.USER.name());
+        customer.setRoles(roles);
         repositoryCustomer.save(customer);
+
         return customer;
     }
 
@@ -42,8 +51,14 @@ public class CustomerService implements ICustomer{
     }
 
     @Override
-    public Customer findById(String id) {
-        return repositoryCustomer.findById(id).orElseThrow(()->new RuntimeException("User Not Found"));
+    public CustomerResponse findById(String id) {
+        Customer customer= repositoryCustomer.findById(id).orElseThrow(()->new RuntimeException("User Not Found"));
+        CustomerResponse customerResponse=new CustomerResponse();
+        customerResponse.setId(id);
+        customerResponse.setEmail(customer.getEmail());
+        customerResponse.setName(customer.getName());
+        customerResponse.setPhoneNumber(customer.getPhoneNumber());
+        return customerResponse;
     }
 
     @Override

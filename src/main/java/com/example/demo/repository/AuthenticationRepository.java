@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface AuthenticationRepository extends JpaRepository<Customer, String >{
     boolean existsByEmail(String email);
     Optional<Customer> findByEmail(String email);
-
 }

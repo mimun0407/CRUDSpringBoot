@@ -26,7 +26,7 @@ public class ApplicationInitConfig {
                 roles.add(Role.ADMIN.name());
                 Customer customer = new Customer();
                 customer.setEmail("admin");
-                customer.setRoles(roles);
+//                customer.setRoles(roles);
                 customer.setName("admin");
                 customer.setPassword(passwordEncoder.encode("admin"));
                 repositoryCustomer.save(customer);

@@ -2,6 +2,7 @@ package com.example.demo.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
-
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {"/Customer", "/auth/log", "/auth/valid"};
@@ -30,7 +31,6 @@ public class SecurityConfig {
                         requests
                                 .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/Customer").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/Customer/customerProfile/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->

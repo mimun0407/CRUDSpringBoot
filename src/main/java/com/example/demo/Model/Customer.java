@@ -3,7 +3,9 @@ package com.example.demo.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
+
 
 @Data
 @AllArgsConstructor
@@ -18,6 +20,6 @@ public class Customer {
     private String name;
     private String phoneNumber;
     private String email;
-    @ElementCollection
-    private Set<String> roles;
+    @ManyToMany
+    private Set<Roles> roles;
 }

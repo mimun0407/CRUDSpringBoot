@@ -3,7 +3,7 @@ package com.example.demo.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+
 import java.util.Set;
 
 
@@ -20,6 +20,6 @@ public class Customer {
     private String name;
     private String phoneNumber;
     private String email;
-    @ManyToMany
-    private Set<Roles> roles;
+    @ElementCollection
+    private Set<String> roles;
 }

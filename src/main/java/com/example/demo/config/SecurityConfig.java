@@ -30,7 +30,6 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(requests ->
                         requests
                                 .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                                .requestMatchers(HttpMethod.GET, "/Customer").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->

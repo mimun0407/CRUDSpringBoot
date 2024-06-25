@@ -15,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CustomerService implements ICustomer{
@@ -24,8 +26,8 @@ public class CustomerService implements ICustomer{
     public CustomerService(RepositoryCustomer repositoryCustomer) {
         this.repositoryCustomer = repositoryCustomer;
     }
-    @PreAuthorize("hasRole('ADMIN')")
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Iterable<Customer> findAll() {
         return repositoryCustomer.findAll();
     }
@@ -41,9 +43,9 @@ public class CustomerService implements ICustomer{
         customer.setPhoneNumber(customerDto.getPhoneNumber());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         customer.setPassword(passwordEncoder.encode(customerDto.getPassword()));
-        List<String> roles=new ArrayList<>();
+        HashSet<String> roles=new HashSet<>();
         roles.add(Role.USER.name());
-//        customer.setRoles(roles);
+        customer.setRoles(roles);
         repositoryCustomer.save(customer);
 
         return customer;
@@ -54,17 +56,15 @@ public class CustomerService implements ICustomer{
         repositoryCustomer.deleteById(id);
     }
 
-    @PostAuthorize("returnObject.email == authentication.name")
+    @PostAuthorize("returnObject.email==authentication.name")
     @Override
     public CustomerResponse findById(String id) {
-        Customer customer = repositoryCustomer.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
-        CustomerResponse customerResponse = new CustomerResponse();
+        Customer customer= repositoryCustomer.findById(id).orElseThrow(()->new RuntimeException("User Not Found"));
+        CustomerResponse customerResponse=new CustomerResponse();
         customerResponse.setId(id);
         customerResponse.setEmail(customer.getEmail());
         customerResponse.setName(customer.getName());
         customerResponse.setPhoneNumber(customer.getPhoneNumber());
-//        List<String> roles=customer.getRoles();
-//        customerResponse.setRoles(roles);
         return customerResponse;
     }
 
